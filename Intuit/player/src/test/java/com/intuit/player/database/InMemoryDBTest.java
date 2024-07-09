@@ -1,4 +1,4 @@
-package com.intuit.player;
+package com.intuit.player.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,8 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import com.intuit.player.database.InMemoryDB;
-import com.intuit.player.database.PlayersCSVReader;
+import com.intuit.player.Player;
 
 public class InMemoryDBTest {
     private List<Player> mockPlayers;

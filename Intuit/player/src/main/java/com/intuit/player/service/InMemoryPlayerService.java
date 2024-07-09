@@ -1,19 +1,19 @@
-package com.intuit.player;
+package com.intuit.player.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ServerWebInputException;
-
+import com.intuit.player.Player;
 import com.intuit.player.database.Database;
 import com.intuit.player.database.InMemoryDB;
 
 @Service
-public class PlayerService {
+public class InMemoryPlayerService implements PlayerService {
     private final Database database;
 
-    public PlayerService(InMemoryDB database) {
+    public InMemoryPlayerService(InMemoryDB database) {
         this.database = database;
     }
 

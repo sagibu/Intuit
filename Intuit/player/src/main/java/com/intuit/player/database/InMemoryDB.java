@@ -21,8 +21,8 @@ public class InMemoryDB implements Database {
 
     private final Map<String, Player> players;
 
-    public InMemoryDB(@Value("${PLAYERS_FILE}") String filePath) throws IllegalArgumentException {
-        List<Player> playersList = PlayersCSVReader.readFile(filePath);
+    public InMemoryDB(@Value("${PLAYERS_FILE}") String playersFile) throws IllegalArgumentException {
+        List<Player> playersList = PlayersCSVReader.readFile(playersFile);
         // TODO: in case of duplicate rows, currently returning the first, should raise an error
         BinaryOperator<Player> duplicate_handler = BinaryOperator.maxBy((a, b) -> 0);
         this.players = playersList.stream().collect(Collectors.toMap(Player::getPlayerID,

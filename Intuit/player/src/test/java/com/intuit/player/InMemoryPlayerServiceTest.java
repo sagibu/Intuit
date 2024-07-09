@@ -11,8 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ServerWebInputException;
 import com.intuit.player.database.InMemoryDB;
+import com.intuit.player.service.InMemoryPlayerService;
 
-public class PlayerServiceTest {
+public class InMemoryPlayerServiceTest {
     private InMemoryDB database;
 
 
@@ -28,7 +29,7 @@ public class PlayerServiceTest {
                 Player.builder().playerID("b").build());
         when(this.database.getAllPlayers()).thenReturn(expectedPlayers);
 
-        PlayerService service = new PlayerService(database);
+        InMemoryPlayerService service = new InMemoryPlayerService(database);
 
         List<Player> actualPlayers = service.getPlayers();
 
@@ -41,7 +42,7 @@ public class PlayerServiceTest {
         Player expectedPlayer = Player.builder().playerID(playerID).build();
         when(this.database.getPlayerByID(playerID)).thenReturn(Optional.of(expectedPlayer));
 
-        PlayerService service = new PlayerService(database);
+        InMemoryPlayerService service = new InMemoryPlayerService(database);
 
         Player actualPlayer = service.getPlayerByID(playerID);
 
@@ -53,7 +54,7 @@ public class PlayerServiceTest {
         String playerID = "a";
         when(this.database.getPlayerByID(playerID)).thenReturn(Optional.empty());
 
-        PlayerService service = new PlayerService(database);
+        InMemoryPlayerService service = new InMemoryPlayerService(database);
 
         assertThrows(ServerWebInputException.class, () -> service.getPlayerByID(playerID));
     }

@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +18,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "players")
 public class Player {
+    @Id
     @CsvBindByName()
     private String playerID;
     @CsvBindByName()
@@ -54,6 +61,7 @@ public class Player {
     @CsvBindByName()
     private String bats;
     @CsvBindByName(column = "throws")
+    @Column(name = "throws")
     @JsonProperty("throws")
     private String throws_; // throws is a saved keyword in java
     @CsvBindByName()
