@@ -1,6 +1,8 @@
 package com.intuit.player.service;
 
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
 import com.intuit.player.Player;
@@ -15,8 +17,17 @@ public class PostgresPlayerService implements PlayerService {
     }
 
     @Override
-    public List<Player> getPlayers() {
-        return this.database.findAll();
+    public List<Player> getPlayers(Optional<Integer> page, Optional<Integer> size)
+            throws ServerWebInputException {
+        if (page.isPresent() && size.isEmpty() || (page.isEmpty() && size.isPresent())) {
+            throw new ServerWebInputException(
+                    "page and size should either be used together or both of them not used");
+        }
+
+        if (page.isEmpty() && size.isEmpty())
+            return this.database.findAll();
+
+        return this.database.findAll(PageRequest.of(page.get(), size.get())).toList();
     }
 
     @Override

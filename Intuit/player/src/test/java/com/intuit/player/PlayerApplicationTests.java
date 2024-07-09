@@ -74,5 +74,22 @@ class PlayerApplicationTests {
 				.andExpect(status().is4xxClientError());
 	}
 
+	@Test
+	void testGetPage() throws Exception {
+		int size = 5;
+		this.mockMvc.perform(get("/api/players?page=1&size={size}", size))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.length()").value(5))
+				.andExpect(jsonPath("$.[0].playerID").value("abadfe01"));
+	}
 
+	@Test
+	void testGetPageExceedingMaxSize() throws Exception {
+		int size = 1000;
+		this.mockMvc.perform(get("/api/players?page=2000&size={size}", size))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.length()").value(0));
+	}
 }
