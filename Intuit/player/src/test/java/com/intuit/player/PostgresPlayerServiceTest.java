@@ -10,16 +10,16 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ServerWebInputException;
-import com.intuit.player.database.InMemoryDB;
-import com.intuit.player.service.InMemoryPlayerService;
+import com.intuit.player.database.PostgresDB;
+import com.intuit.player.service.PostgresPlayerService;
 
-public class InMemoryPlayerServiceTest {
-    private InMemoryDB database;
+public class PostgresPlayerServiceTest {
+    private PostgresDB database;
 
 
     @BeforeEach
     public void setUp() {
-        this.database = mock(InMemoryDB.class);
+        this.database = mock(PostgresDB.class);
 
     }
 
@@ -27,9 +27,9 @@ public class InMemoryPlayerServiceTest {
     public void testGetAllPlayersSuccesfully() throws Exception {
         List<Player> expectedPlayers = Arrays.asList(Player.builder().playerID("a").build(),
                 Player.builder().playerID("b").build());
-        when(this.database.getAllPlayers()).thenReturn(expectedPlayers);
+        when(this.database.findAll()).thenReturn(expectedPlayers);
 
-        InMemoryPlayerService service = new InMemoryPlayerService(database);
+        PostgresPlayerService service = new PostgresPlayerService(this.database);
 
         List<Player> actualPlayers = service.getPlayers();
 
@@ -40,9 +40,9 @@ public class InMemoryPlayerServiceTest {
     public void testGetPlayerByIDSuccesfully() throws Exception {
         String playerID = "a";
         Player expectedPlayer = Player.builder().playerID(playerID).build();
-        when(this.database.getPlayerByID(playerID)).thenReturn(Optional.of(expectedPlayer));
+        when(this.database.findById(playerID)).thenReturn(Optional.of(expectedPlayer));
 
-        InMemoryPlayerService service = new InMemoryPlayerService(database);
+        PostgresPlayerService service = new PostgresPlayerService(database);
 
         Player actualPlayer = service.getPlayerByID(playerID);
 
@@ -52,9 +52,9 @@ public class InMemoryPlayerServiceTest {
     @Test
     public void testGetPlayerByNonExistingID() throws Exception {
         String playerID = "a";
-        when(this.database.getPlayerByID(playerID)).thenReturn(Optional.empty());
+        when(this.database.findById(playerID)).thenReturn(Optional.empty());
 
-        InMemoryPlayerService service = new InMemoryPlayerService(database);
+        PostgresPlayerService service = new PostgresPlayerService(database);
 
         assertThrows(ServerWebInputException.class, () -> service.getPlayerByID(playerID));
     }
