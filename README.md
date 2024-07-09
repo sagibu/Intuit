@@ -7,7 +7,8 @@
 * Running using docker-compose
 * Unit tests and Integration tests
 ### Improvements That Can Be Done
-*  Configuration management - i.e make it possible to run the service with either in memory DB or an external postgres
+* Configuration management - i.e make it possible to run the service with either in memory DB or an external postgres
+* Add e2e tests - test the entire system
 * Better input validation - i.e validate that the CSV has all the columns, but that they can be empty
 * Swagger endpoint so users can view the API
 * Caching
